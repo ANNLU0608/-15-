@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倒數計時器</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #timer { font-size: 2em; margin-top: 20%; }
+        #start-button { margin-top: 20px; font-size: 1em; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <div id="timer">00:15</div>
+    <button id="start-button">開始倒數計時</button>
+    <audio id="alarm-sound" src="your-alarm-sound-url.mp3" preload="auto"></audio>
+    <script>
+        let timeLeft = 15;  // 設置為 15 秒
+        const timerElement = document.getElementById('timer');
+        const alarmSound = document.getElementById('alarm-sound');
+        const startButton = document.getElementById('start-button');
+        let timerInterval;
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            if (timeLeft > 0) {
+                timeLeft--;
+            } else {
+                clearInterval(timerInterval);
+                alarmSound.play();
+            }
+        }
+
+        startButton.addEventListener('click', () => {
+            timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // initialize timer display
+            startButton.disabled = true; // disable the button after starting the timer
+        });
+    </script>
+</body>
+</html>
